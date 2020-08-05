@@ -1,4 +1,4 @@
-❯ docker images                                                                           
+❯ docker images
 REPOSITORY                              TAG                 IMAGE ID            CREATED             SIZE
 molecule_local/ubuntu                   16.04               70fb9005694e        9 days ago          239MB
 ubuntu                                  16.04               fab5e942c505        11 days ago         126MB
