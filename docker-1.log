@@ -1,0 +1,10 @@
+❯ docker images                                                                           
+REPOSITORY                              TAG                 IMAGE ID            CREATED             SIZE
+molecule_local/ubuntu                   16.04               70fb9005694e        9 days ago          239MB
+ubuntu                                  16.04               fab5e942c505        11 days ago         126MB
+ubuntu                                  18.04               2eb2d388e1a2        11 days ago         64.2MB
+ruby                                    2.7.1               9b840f43471e        5 weeks ago         842MB
+postgres                                9.5.22-alpine       618a409b866c        5 weeks ago         35.8MB
+postgres                                latest              b97bae343e06        8 weeks ago         313MB
+hello-world                             latest              bf756fb1ae65        7 months ago        13.3kB
+geerlingguy/docker-ubuntu1604-ansible   latest              9204e69b02f2        7 months ago        419MB
