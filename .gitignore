@@ -5,8 +5,7 @@ key.json
 secrets.yml
 vault.key
 
-packer/variables.json
-packer/immutable_var.json
+**/packer/variables.json
 
 *.tfstate
 *.tfstate.*.backup
@@ -15,7 +14,6 @@ packer/immutable_var.json
 .terraform/
 
 .vagrant/
-*.log
 *.pyc
 .molecule
 .cache
