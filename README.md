@@ -49,3 +49,68 @@ docker-machine create \
 ```bash
 eval $(docker-machine env docker-host)
 ```
+
+## ДЗ № 14 Docker-образы. Микросервисы
+
+- Собрали образы на docker-host
+
+```bash
+docker pull mongo:latest
+docker build -t tog1s/post:1.0 ./post-py
+docker build -t tog1s/comment:1.0 ./comment
+docker build -t tog1s/ui:1.0 ./ui
+```
+
+- Запустили приложение из нескольких микросервисов
+
+```bash
+docker network create reddit
+docker run -d --network=reddit --network-alias=post_db --network-alias=comment_db mongo:latest
+docker run -d --network=reddit --network-alias=post tog1s/post:1.0
+docker run -d --network=reddit --network-alias=comment tog1s/comment:1.0
+docker run -d --network=reddit -p 9292:9292 tog1s/ui:1.0
+```
+### Задание со *
+
+Перезаписываем переменные окружения при запуске контейнера
+
+```bash
+docker run -d --network=reddit --network-alias=new_post_db --network-alias=new_comment_db mongo:latest
+docker run -d --env POST_DATABASE_HOST=new_post_db --network=reddit --network-alias=post tog1s/post:1.0
+docker run -d --env COMMENT_DATABASE_HOST=new_comment_db --network=reddit --network-alias=comment tog1s/comment:1.0
+docker run -d --env POST_SERVICE_HOST=post --env COMMENT_SERVICE_HOST=comment --network=reddit -p 9292:9292 tog1s/ui:1.0
+```
+
+- Уменьшили образ ui до 771 MB -> 449 MB
+
+### Задание со *
+
+Образы с версией 2.1 собраны на основе ruby2.6-alpine с очисткой dev инструментов, что привело к значительному сокращению размера.
+
+```bash
+❯ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+tog1s/comment       2.1                 b7589074978a        37 seconds ago      86.5MB
+tog1s/ui            2.1                 ad8327f4f16f        13 minutes ago      88.6MB
+tog1s/ui            2.0                 f57b5b9d8849        24 minutes ago      449MB
+tog1s/ui            1.0                 6592be8486b7        53 minutes ago      771MB
+tog1s/comment       1.0                 dfff85aee9c5        53 minutes ago      768MB
+tog1s/post          1.0                 f4d84235d809        56 minutes ago      110MB
+mongo               latest              aa22d67221a0        9 days ago          493MB
+ubuntu              16.04               fab5e942c505        2 weeks ago         126MB
+ruby                2.6-alpine          78349ac25912        6 weeks ago         50.4MB
+ruby                2.2                 6c8e6f9667b2        2 years ago         715MB
+python              3.6.0-alpine        cb178ebbf0f2        3 years ago         88.6MB
+```
+
+
+- Подключили volume к контейнеру с mongodb
+
+```bash
+docker run -d --network=reddit --network-alias=post_db --network-alias=comment_db -v reddit_db:/data/db mongo:latest
+docker run -d --network=reddit --network-alias=post tog1s/post:1.0
+docker run -d --network=reddit --network-alias=comment tog1s/comment:2.1
+docker run -d --network=reddit -p 9292:9292 tog1s/ui:2.1
+```
+
+Сервис работает без потери данных.
