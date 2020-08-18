@@ -50,7 +50,7 @@ docker-machine create \
 eval $(docker-machine env docker-host)
 ```
 
-## ДЗ № 14 Docker-образы. Микросервисы
+## ДЗ № 14 Docker-образы. Микросервисы.
 
 - Собрали образы на docker-host
 
@@ -114,3 +114,25 @@ docker run -d --network=reddit -p 9292:9292 tog1s/ui:2.1
 ```
 
 Сервис работает без потери данных.
+
+## ДЗ № 15 Docker: Сети, docker-compose.
+
+- Разобрались с работой сети в Docker (none, host, bridge).
+- Настроили разделение сетей на front_net, back_net.
+- Разобрались с работой docker-proxy.
+- Рассмотрели docker-compose.
+- Создали docker-compose.yml для проекта.
+- Добавили env файл для переменных проекта.
+- Имя проекта можно задать через переменную окружения:
+
+  ```bash
+  COMPOSE_PROJECT_NAME=reddit
+  ```
+
+### Задание со \*
+
+Создан src/docker-compose.override.yml для работы в debug/develop режимах. Файл можно переименовать и подключать при необходимости коммандой:
+
+```bash
+docker-compose up -f docker-compose.debug.yml
+```
