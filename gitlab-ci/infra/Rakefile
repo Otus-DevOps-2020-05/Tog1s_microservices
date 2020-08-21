@@ -1,0 +1,34 @@
+# Tests
+task test: ['test:terraform', 'test:ansible']
+
+desc 'Test infrastructure config'
+namespace :test do
+  task :terraform do
+    system "cd ./terraform && terraform validate"
+  end
+
+  task :ansible do
+    system "cd ./ansible/playbooks && ansible-lint"
+  end
+end
+
+# Provision
+desc 'terrafrom apply'
+task :tfa do
+  system "cd ./terraform && terraform apply"
+end
+
+desc 'terraform destroy'
+task :tfd do
+  system "cd ./terraform && terraform destroy"
+end
+
+desc 'ansible check'
+task :apc do
+  system "cd ./ansible && ansible-playbook playbooks/deploy_gitlab.yml --check"
+end
+
+desc 'ansible deploy'
+task :apd do
+  system "cd ./ansible && ansible-playbook playbooks/deploy_gitlab.yml"
+end
