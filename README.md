@@ -136,3 +136,25 @@ docker run -d --network=reddit -p 9292:9292 tog1s/ui:2.1
 ```bash
 docker-compose up -f docker-compose.debug.yml
 ```
+
+## ДЗ № 16 Gitlab CI. Построение процесса непрерывной интеграции
+
+```bash
+docker run -d --name gitlab-runner --restart always \
+ -v /srv/gitlab-runner/config:/etc/gitlab-runner \
+ -v /var/run/docker.sock:/var/run/docker.sock \
+ gitlab/gitlab-runner:latest
+```
+
+```bash
+ docker exec -it gitlab-runner gitlab-runner register \
+    --url http://<ip>/ \
+    --non-interactive \
+    --locked=false \
+    --name DockerRunner \
+    --executor docker \
+    --docker-image alpine:latest \
+    --registration-token <token> \
+    --tag-list "linux,xenial,ubuntu,docker" \
+    --run-untagged
+```
