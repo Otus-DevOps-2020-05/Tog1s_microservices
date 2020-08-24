@@ -139,22 +139,46 @@ docker-compose up -f docker-compose.debug.yml
 
 ## ДЗ № 16 Gitlab CI. Построение процесса непрерывной интеграции
 
-```bash
-docker run -d --name gitlab-runner --restart always \
- -v /srv/gitlab-runner/config:/etc/gitlab-runner \
- -v /var/run/docker.sock:/var/run/docker.sock \
- gitlab/gitlab-runner:latest
-```
+- Создан шаблон terraform инстанса для Gitlab CI.
+- Созданы плейбуки для установки docker, docker-compose, развёртывание Gitlab CI.
+- Изучены настрокйи GitlabCI.
+- Рассмотрена работа ранеров. Создание, запуск.
 
-```bash
- docker exec -it gitlab-runner gitlab-runner register \
-    --url http://<ip>/ \
-    --non-interactive \
-    --locked=false \
-    --name DockerRunner \
-    --executor docker \
-    --docker-image alpine:latest \
-    --registration-token <token> \
-    --tag-list "linux,xenial,ubuntu,docker" \
-    --run-untagged
-```
+    Создание ранера:
+    ```bash
+    docker run -d --name gitlab-runner --restart always \
+    -v /srv/gitlab-runner/config:/etc/gitlab-runner \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    gitlab/gitlab-runner:latest
+    ```
+    Добавление ранера:
+    ```bash
+    docker exec -it gitlab-runner gitlab-runner register \
+        --url http://<ip>/ \
+        --non-interactive \
+        --locked=false \
+        --name DockerRunner \
+        --executor docker \
+        --docker-image alpine:latest \
+        --registration-token <token> \
+        --tag-list "linux,xenial,ubuntu,docker" \
+        --run-untagged
+    ```
+
+- Рассмотрена работа пайплайнов.
+
+### Задание со *
+#### АвтоматизацияразвёртыванияGitLab
+
+Добавлен директория gitlab-ci/infra с описание инфраструктуры. В плейбуке deploy_gitlab.yml описан контейнер для gitlab ci.
+
+### Задание со *
+#### Автоматизация развёртывания GitLabRunner
+
+Создан плейбук deploy_gitlab_runner.yml.
+
+### Задание со *
+#### Интеграция gitlab с slack
+
+Добавлена интеграция в Slack.
+https://devops-team-otus.slack.com/archives/C015KCB6KGC

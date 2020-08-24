@@ -1,0 +1,27 @@
+---
+- name: Deploy gitlab with docker
+  hosts: gitlab-ci-vm
+  vars_files:
+    - "../vars/gitlab.yml"
+
+  tasks:
+    - name: Create runner
+      docker_container:
+        name: gitlab-runner
+        image: gitlab/gitlab-runner:latest
+        restart: true
+        volumes:
+          - /srv/gitlab-runner/config:/etc/gitlab-runner
+          - /var/run/docker.sock:/var/run/docker.sock
+
+    - name: Register runner
+      command: docker exec -it gitlab-runner gitlab-runner register
+        --url http://{{ gitlab_host }}/
+        --non-interactive
+        --locked=false
+        --name DockerRunner
+        --executor docker
+        --docker-image alpine:latest
+        --registration-token {{ gitlab_runner_key }}
+        --tag-list "linux,xenial,ubuntu,docker"
+        --run-untagged
