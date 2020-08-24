@@ -168,14 +168,14 @@ docker-compose up -f docker-compose.debug.yml
 - Рассмотрена работа пайплайнов.
 
 ### Задание со *
-#### АвтоматизацияразвёртыванияGitLab
+#### Автоматизация развёртывания GitLab
 
-Добавлен директория gitlab-ci/infra с описание инфраструктуры. В плейбуке deploy_gitlab.yml описан контейнер для gitlab ci.
+Добавлена директория gitlab-ci/infra с описание инфраструктуры. В плейбуке deploy_gitlab.yml описан контейнер для gitlab ci.
 
 ### Задание со *
 #### Автоматизация развёртывания GitLabRunner
 
-Создан плейбук deploy_gitlab_runner.yml.
+Создан плейбук deploy_gitlab_runner.yml
 
 ### Задание со *
 #### Интеграция gitlab с slack
