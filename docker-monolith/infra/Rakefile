@@ -1,0 +1,46 @@
+# Tests
+task test: ['test:packer', 'test:terraform', 'test:ansible']
+
+desc 'Test infrastructure config'
+namespace :test do
+  task :packer do
+    puts "Validate packer"
+    system "packer validate -var-file=packer/variables.json packer/docker-host.json"
+  end
+
+  task :terraform do
+    puts "Validate terraform"
+    system "cd terraform && terraform validate"
+  end
+
+  task :ansible do
+    puts "Validate ansible"
+    system "cd ansible/playbooks && ansible-lint"
+  end
+end
+
+# Provision
+desc 'packer build'
+task :pb do
+  system "packer build -var-file=packer/variables.json packer/docker-host.json"
+end
+
+desc 'terrafrom apply'
+task :tfa do
+  system "cd terraform && terraform apply"
+end
+
+desc 'terraform destroy'
+task :tfd do
+  system "cd terraform && terraform destroy"
+end
+
+desc 'ansible check'
+task :apc do
+  system "cd ansible && ansible-playbook playbooks/deploy_reddit.yml --check"
+end
+
+desc 'ansible deploy'
+task :apd do
+  system "cd ansible && ansible-playbook playbooks/deploy_reddit.yml"
+end

@@ -4,10 +4,12 @@ task test: ['test:terraform', 'test:ansible']
 desc 'Test infrastructure config'
 namespace :test do
   task :terraform do
+    puts "Validate terraform"
     system "cd ./terraform && terraform validate"
   end
 
   task :ansible do
+    puts "Validate ansible"
     system "cd ./ansible/playbooks && ansible-lint"
   end
 end
