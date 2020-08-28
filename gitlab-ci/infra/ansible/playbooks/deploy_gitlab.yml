@@ -1,0 +1,49 @@
+---
+- name: Deploy gitlab with docker
+  hosts: gitlab-ci-vm
+  vars_files:
+    - "../vars/gitlab.yml"
+
+  tasks:
+    - name: Create directory gitlab
+      file:
+        path: /srv/gitlab
+        state: directory
+        owner: ubuntu
+        mode: '0755'
+      become: true
+
+    - name: Create directories
+      file:
+        path: '/srv/gitlab/{{ item.dir }}'
+        state: directory
+      loop:
+        - { dir: config }
+        - { dir: data }
+        - { dir: logs }
+
+    - name: Run gitlab container
+      docker_container:
+        name: gitlab
+        image: 'gitlab/gitlab-ce:latest'
+        restart: true
+        hostname: 'gitlab.example.com'
+        state: present
+        env:
+          GITLAB_OMNIBUS_CONFIG: external_url 'http://{{ gitlab_host }}'
+        ports:
+          - '80:80'
+          - '443:443'
+          - '2222:22'
+        volumes:
+          - '/srv/gitlab/config:/etc/gitlab'
+          - '/srv/gitlab/logs:/var/log/gitlab'
+          - '/srv/gitlab/data:/var/opt/gitlab'
+
+    # - name: Copy docker compose template
+    #   template:
+    #     src: ../templates/docker-compose.yml.j2
+    #     dest: /srv/gitlab/docker-compose.yml
+
+    # - name: run gitlab ci
+    #   shell: cd /srv/gitlab && docker-compose up -d

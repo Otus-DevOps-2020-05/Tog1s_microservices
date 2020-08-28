@@ -7,6 +7,8 @@ vault.key
 
 **/packer/variables.json
 
+gitlab-ci/infra/ansible/vars/gitlab.yml
+
 *.tfstate
 *.tfstate.*.backup
 *.tfstate.backup
