@@ -190,6 +190,8 @@ https://devops-team-otus.slack.com/archives/C015KCB6KGC
 - Познакомились с мониторингом микросервисов.
 - Познакомились с экспортерами.
 
+Ссылка на [docker hub](https://hub.docker.com/u/tog1s)
+
 ### Задания со *
 - Добавлен экспортер для mongodb.
 - Добавлен мониторинг сервисов comment post ui с помощью cloudprober.
