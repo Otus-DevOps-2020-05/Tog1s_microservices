@@ -1,0 +1,90 @@
+version: '3.3'
+services:
+  post_db:
+    image: mongo:3.2
+    volumes:
+      - post_db:/data/db
+    networks:
+      back_net:
+        aliases:
+          - post_db
+          - comment_db
+  ui:
+    image: ${DOCKER_USERNAME}/ui
+    environment:
+      - POST_SERVICE_HOST
+      - POST_SERVICE_PORT
+      - COMMENT_SERVICE_HOST
+      - COMMENT_SERVICE_PORT
+    ports:
+      - ${PUBLIC_TCP_PORT}:9292/tcp
+    networks:
+      - front_net
+  post:
+    image: ${DOCKER_USERNAME}/post
+    environment:
+      - POST_DATABASE_HOST
+      - POST_DATABASE
+    networks:
+      - back_net
+      - front_net
+  comment:
+    image: ${DOCKER_USERNAME}/comment
+    environment:
+      - COMMENT_DATABASE_HOST
+      - COMMENT_DATABASE
+    networks:
+      - back_net
+      - front_net
+  prometheus:
+    image: ${DOCKER_USERNAME}/prometheus
+    ports:
+      - '9090:9090'
+    volumes:
+      - prometheus_data:/prometheus
+    networks:
+      - back_net
+      - front_net
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention=1d'
+  node-exporter:
+    image: prom/node-exporter:v0.15.2
+    user: root
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
+    networks:
+      - back_net
+      - front_net
+  mongo-exporter:
+    image: elarasu/mongodb_exporter@sha256:6d58466a866b25cff5fd19617790d188ebba2474af9e02bb8accb85b5147b69b
+    environment:
+      - MONGODB_URL=mongodb://post_db:27017
+    networks:
+      - back_net
+  cloudprober:
+    image: cloudprober/cloudprober:v0.10.9
+    environment:
+      - CLOUDPROBER_HOST=0.0.0.0
+    volumes:
+      - ./cloudprober.cfg:/etc/cloudprober.cfg
+    ports:
+      - '9313:9313'
+    networks:
+      - back_net
+      - front_net
+
+volumes:
+  post_db:
+  prometheus_data:
+
+networks:
+  back_net:
+  front_net:
