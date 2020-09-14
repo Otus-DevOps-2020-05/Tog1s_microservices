@@ -182,3 +182,17 @@ docker-compose up -f docker-compose.debug.yml
 
 Добавлена интеграция в Slack.
 https://devops-team-otus.slack.com/archives/C015KCB6KGC
+
+## ДЗ № 17 Создание и запуск системы мониторинга Prometheus
+
+- Запустили prometheus в Docker контейнере.
+- Познакомились с веб интерфейсом.
+- Познакомились с мониторингом микросервисов.
+- Познакомились с экспортерами.
+
+Ссылка на [docker hub](https://hub.docker.com/u/tog1s)
+
+### Задания со *
+- Добавлен экспортер для mongodb.
+- Добавлен мониторинг сервисов comment post ui с помощью cloudprober.
+- Добавлен Makefile с функциями build и push.
