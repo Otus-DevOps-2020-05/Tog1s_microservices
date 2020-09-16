@@ -1,15 +1,13 @@
-FROM ruby:2.6-alpine
+FROM ruby:2.2
 
-ENV APP_HOME=/app
+RUN apt-get update -qq && apt-get install -y build-essential
 
+ENV APP_HOME /app
 RUN mkdir $APP_HOME
 WORKDIR $APP_HOME
 
 ADD Gemfile* $APP_HOME/
-RUN apk add --update ruby-dev build-base \
-    && gem install bundler \
-    && bundle install \
-    && apk del ruby-dev build-base
+RUN bundle install
 
 ADD . $APP_HOME
 
