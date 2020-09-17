@@ -230,3 +230,5 @@ else:
     app.post_read_db_seconds.observe(resp_time)
     time.sleep(3)
 ```
+
+## ДЗ № 19 Установка и настройка Kubernetes
