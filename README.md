@@ -204,3 +204,29 @@ https://devops-team-otus.slack.com/archives/C015KCB6KGC
 - Разобрались с Дашбоардами в Grafana.
 - Реализован монитоинг бизнес метрик.
 - Настрое алертинг и добавлены нотификации в Slack.
+
+## ДЗ № 18 Мониторинг приложения и инфраструктуры
+
+- Настроили Elastic Stack и Fluentd для сбора логов.
+- Настроили отправку логов из приложения в Fluentd.
+- Рассмотрен интерфейс Kibana.
+- Рассмотрена работа с фильтрами.
+- Рассмотрен трейсинг в Zipkin
+
+### Задание со *
+
+Добавлен разбор формата по патерну
+
+grok_pattern service=%{WORD:service} \| event=%{WORD:event} \| path=%{URIPATH:path} \| request_id=%{GREEDYDATA:request_id} \| remote_addr=%{IPV4:remote_addr} \| method= %{WORD:method} \| response_status=%{NUMBER:response_status}
+
+### Задание со *
+
+Get запрос по маршруту /post/<id> проходит >3s, внутри приложения в функции find_post установлена искусственная задержка в 3 секунды.
+
+```python
+else:
+    stop_time = time.time()  # + 0.3
+    resp_time = stop_time - start_time
+    app.post_read_db_seconds.observe(resp_time)
+    time.sleep(3)
+```

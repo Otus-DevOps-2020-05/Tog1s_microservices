@@ -10,29 +10,42 @@ services:
           - post_db
           - comment_db
   ui:
-    image: ${DOCKER_USERNAME}/ui
+    image: ${DOCKER_USERNAME}/ui:${DOCKER_TAG}
     environment:
       - POST_SERVICE_HOST
       - POST_SERVICE_PORT
       - COMMENT_SERVICE_HOST
       - COMMENT_SERVICE_PORT
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
     ports:
       - ${PUBLIC_TCP_PORT}:9292/tcp
     networks:
       - front_net
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: service.ui
   post:
-    image: ${DOCKER_USERNAME}/post
+    image: ${DOCKER_USERNAME}/post:${DOCKER_TAG}
     environment:
       - POST_DATABASE_HOST
       - POST_DATABASE
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
     networks:
       - back_net
       - front_net
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: service.post
   comment:
-    image: ${DOCKER_USERNAME}/comment
+    image: ${DOCKER_USERNAME}/comment:${DOCKER_TAG}
     environment:
       - COMMENT_DATABASE_HOST
       - COMMENT_DATABASE
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
     networks:
       - back_net
       - front_net
