@@ -230,3 +230,9 @@ else:
     app.post_read_db_seconds.observe(resp_time)
     time.sleep(3)
 ```
+
+## ДЗ № 19 Установка и настройка Kubernetes
+
+- Пройден YC Kubernetes The Hard Way.
+- Проверен запуск подов из деплойментов в директории kubernetes/reddit.
+- Созданы Ansible плейбуки для деплоя мастер нод*.
