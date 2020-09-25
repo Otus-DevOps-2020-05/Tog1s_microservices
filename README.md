@@ -245,3 +245,16 @@ else:
 - Развернули приложение в namespace dev.
 - Развернули кластер в Yandex Cloud.
 - Сделали deploy приложения в Yandex Cloud с помощью kubectl.
+
+## ДЗ № 21 Настройка балансировщиков нагрузки в Kubernetes и SSL­Terminating.
+- Разобрали работу kube-dns.
+- Настроили LoadBalancer.
+- Настроили Ingress Controller.
+- Разобрали работу с Secret.
+- Настроили TLS.
+- Разобрали работу NetworkPolicy.
+- Разобрали работу с PersistentVolume.
+- Разобрали StorageClass, PVC, dynamic-PVC.
+
+
+### Задание со *
