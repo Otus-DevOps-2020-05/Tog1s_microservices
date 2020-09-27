@@ -258,3 +258,5 @@ else:
 
 
 ### Задание со *
+
+Добавлен файл kubernetes/reddit/ingress-secret.yml с данными TLS.
