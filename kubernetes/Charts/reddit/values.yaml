@@ -1,0 +1,20 @@
+comment:
+  image:
+    repository: tog1s/comment
+    tag: latest
+  service:
+    externalPort: 9292
+
+post:
+  image:
+    repository: tog1s/post
+    tag: latest
+  service:
+    externalPort: 5000
+
+ui:
+  image:
+    repository: tog1s/ui
+    tag: latest
+  service:
+    externalPort: 9292

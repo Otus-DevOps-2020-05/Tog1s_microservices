@@ -1,0 +1,54 @@
+---
+- name: Install Docker
+  hosts: gitlab-ci-vm
+  become: true
+  vars_files:
+    - "../vars/gitlab.yml"
+
+  tasks:
+    - name: Prepare install
+      apt:
+        package:
+          - curl
+          - apt-transport-https
+          - ca-certificates
+          - software-properties-common
+          - python3-pip
+        update_cache: true
+
+    - name: Install docker from pip
+      pip:
+        name: docker
+
+    - name: Add GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add APT repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
+        state: present
+
+    - name: Install Docker
+      apt:
+        package: docker-ce
+        update_cache: true
+
+    - name: Install docker-compose
+      get_url:
+        url : "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64"
+        dest: /usr/local/bin/docker-compose
+        mode: 'a+x'
+        force: yes
+
+    - name: Add group docker
+      group:
+        name: docker
+        state: present
+
+    - name: Add user to group docker
+      user:
+        name: ubuntu
+        groups: docker
+        append: yes

@@ -1,0 +1,27 @@
+---
+- name: Configure RBAC
+  hosts: all
+  become: true
+  tasks:
+
+  - name: role apiserver-to-kubelet
+    template:
+      src: templates/kube-apiserver-to-kubelet.role.yml.j2
+      dest: /var/lib/kubernetes/kube-apiserver-to-kubelet.role.yml
+
+  - name: rolebinding apiserver-to-kubelet
+    template:
+      src: templates/kube-apiserver-to-kubelet.rolebinding.yml.j2
+      dest: /var/lib/kubernetes/kube-apiserver-to-kubelet.rolebinding.yml
+
+  - name: apply role
+    shell: kubectl apply -f kube-apiserver-to-kubelet.role.yml
+    args:
+      chdir: /var/lib/kubernetes
+    when: kubectl_api_kubelet.results.0.rc != 0
+
+  - name: apply rolebinding
+    shell: kubectl apply -f kube-apiserver-to-kubelet.rolebinding.yml
+    args:
+      chdir: /var/lib/kubernetes
+    when: kubectl_api_kubelet.results.1.rc != 0

@@ -1,0 +1,26 @@
+---
+- name: Install Docker
+  hosts: all
+  become: true
+  gather_facts: False
+
+  tasks:
+    - name: Prepare install
+      apt:
+        package: [curl, apt-transport-https, ca-certificates, software-properties-common]
+        update_cache: true
+
+    - name: Add GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add APT repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
+        state: present
+
+    - name: Install Docker
+      apt:
+        package: docker-ce
+        update_cache: true

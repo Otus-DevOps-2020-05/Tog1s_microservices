@@ -1,0 +1,3 @@
+docker_compose_version: <version>
+gitlab_host: <ip>
+gitlab_runner_key: '<token>'
