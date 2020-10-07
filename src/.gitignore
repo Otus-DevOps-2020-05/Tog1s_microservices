@@ -1,7 +1,6 @@
 docker-compose.yml
 build_info.txt
 prometheus/
-alertmanager/
 
 ## python specific
 *.pyc
