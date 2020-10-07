@@ -260,3 +260,23 @@ else:
 ### Задание со *
 
 Добавлен файл kubernetes/reddit/ingress-secret.yml с данными TLS.
+
+## ДЗ № 22 Создание Helm Chart’ов для компонент приложения, управление зависимостями Helm.
+- Установили Helm + Tiller.
+- Создали Chart'ы.
+- Разобрались с templates.
+- Создали зависимости для приложения reddit.
+- Установили GitLab в Kubernetes кластер с помощью chart'a
+- Настроили gitlab-ci для каждого элемента.
+- Разобрались с пайплайнами, сборкой образов, деплоем.
+- Разобрались с тригерами и хуками.
+
+### Задание со *
+
+Для версии gitlab 10 добавил скрипт запускающий задачу деплоя по токену. Для версии gitlab > 11 можно использовать директив trigger:
+```yaml
+after_script:
+  - apk add -U curl
+  - echo "%GITLAB_IP gitlab-gitlab" >> /etc/hosts
+  - "curl -X POST -F token=$DEPLOY_TOKEN -F ref=master http://gitlab-gitlab/api/v4/projects/5/trigger/pipeline"
+```
