@@ -280,3 +280,12 @@ after_script:
   - echo "%GITLAB_IP gitlab-gitlab" >> /etc/hosts
   - "curl -X POST -F token=$DEPLOY_TOKEN -F ref=master http://gitlab-gitlab/api/v4/projects/5/trigger/pipeline"
 ```
+
+## ДЗ № 23 Kubernetes. Мониторинг и логирование
+
+- Развернули ingress контроллер.
+- Развернули prometheus.
+- Развернули grafana для визуализации.
+- Настроили дашборды и неймспейсы.
+- Параметризовали дашборды.
+- Развернули EFK для агрегации логов.
